@@ -1,11 +1,33 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import PoemGenerator from '@/components/PoemGenerator';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen py-12 bg-gradient-to-b from-blue-50 to-white">
+      <div className="container mx-auto px-4">
+        <header className="text-center mb-12">
+          <h1 className="text-4xl font-serif font-bold text-gray-800 mb-4">
+            Verse Seed Whisperer
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Generate beautiful four-line poems from your seed text using Markov chain technology.
+            No external LLM APIs, just computational creativity.
+          </p>
+        </header>
+
+        <main>
+          <PoemGenerator />
+        </main>
+
+        <footer className="mt-16 text-center text-sm text-gray-500">
+          <p>A soft computing project for poem generation</p>
+          <p className="mt-2">
+            <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-mono">
+              markov-chain implementation
+            </span>
+          </p>
+        </footer>
       </div>
     </div>
   );
