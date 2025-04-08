@@ -1,38 +1,39 @@
 
 import React, { useState } from 'react';
-import TextInput from './TextInput';
+import WordInput from './WordInput';
 import PoemDisplay from './PoemDisplay';
-import { generatePoemWithFallback } from '@/utils/markovChain';
-import { useToast } from '@/components/ui/use-toast';
+import { generatePoemFromWord } from '@/utils/markovChain';
+import { useToast } from '@/hooks/use-toast';
 
 const PoemGenerator = () => {
   const [poem, setPoem] = useState<string[]>([]);
+  const [inputWord, setInputWord] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
 
-  const handleGenerate = async (seedText: string) => {
-    if (seedText.length < 20) {
+  const handleGenerate = async (word: string) => {
+    if (word.length < 3) {
       toast({
-        title: "Seed text too short",
-        description: "Please provide at least 20 characters of seed text.",
+        title: "Input word too short",
+        description: "Please provide a word with at least 3 characters.",
         variant: "destructive"
       });
       return;
     }
 
+    setInputWord(word);
     setIsGenerating(true);
     
     // Simulate processing time to show loading state
-    // (the algorithm is very fast but we want to show the loading state)
     setTimeout(() => {
       try {
-        const generatedPoem = generatePoemWithFallback(seedText);
+        const generatedPoem = generatePoemFromWord(word);
         setPoem(generatedPoem);
         
-        if (generatedPoem.length === 1 && generatedPoem[0].includes("Not enough")) {
+        if (generatedPoem.length < 4) {
           toast({
             title: "Limited poem quality",
-            description: "Your seed text may be too short or repetitive for optimal results.",
+            description: "The generator had trouble creating a proper quatrain with rhymes.",
             variant: "default"
           });
         }
@@ -43,22 +44,23 @@ const PoemGenerator = () => {
           description: "An error occurred while generating your poem. Please try again.",
           variant: "destructive"
         });
-        setPoem(["Failed to generate poem. Please try with different seed text."]);
+        setPoem(["Failed to generate poem. Please try with a different word."]);
       } finally {
         setIsGenerating(false);
       }
-    }, 1000);
+    }, 1500); // Slightly longer delay to simulate more complex processing
   };
 
   return (
     <div className="flex flex-col items-center w-full max-w-4xl mx-auto px-4">
-      <TextInput 
+      <WordInput 
         onGenerate={handleGenerate} 
         isGenerating={isGenerating} 
       />
       <PoemDisplay 
         poem={poem} 
-        isLoading={isGenerating} 
+        isLoading={isGenerating}
+        highlightWord={inputWord}
       />
     </div>
   );
