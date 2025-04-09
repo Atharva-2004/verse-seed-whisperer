@@ -1,73 +1,63 @@
-# Welcome to your Lovable project
 
-## Project info
+# Verse Seed Whisperer
 
-**URL**: https://lovable.dev/projects/41105c22-b262-443a-af9a-86d6a23793bb
+A poem generation application using soft computing concepts, specifically fuzzy logic for rhyme matching.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- Generate quatrains (4-line poems) from a single seed word
+- Implements ABAB rhyme scheme using fuzzy logic
+- Highlights the seed word when it appears in the generated poem
+- Uses NLTK for phonetic analysis and rhyme detection
 
-**Use Lovable**
+## Technology Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/41105c22-b262-443a-af9a-86d6a23793bb) and start prompting.
+- **Backend**: Flask, Python, NLTK
+- **Frontend**: React, TypeScript, Tailwind CSS
+- **Soft Computing Concepts**: Fuzzy matching, probabilistic text generation
 
-Changes made via Lovable will be committed automatically to this repo.
+## Setup Instructions
 
-**Use your preferred IDE**
+1. Install Python dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. Install frontend dependencies:
+   ```
+   npm install
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. Run the Flask backend:
+   ```
+   python app.py
+   ```
 
-Follow these steps:
+4. In a separate terminal, start the frontend development server:
+   ```
+   npm run dev
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+5. Open your browser and navigate to http://localhost:8080
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## How It Works
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. The user enters a seed word in the input field
+2. The system generates thematic vocabulary related to the seed word
+3. Using fuzzy logic and phonetic matching, the system creates lines that follow an ABAB rhyme scheme
+4. The resulting quatrain is displayed with the seed word highlighted if it appears in the poem
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## Project Structure
 
-**Edit a file directly in GitHub**
+- `/app.py` - Flask backend with poem generation logic
+- `/src/` - React frontend application
+  - `/components/` - React components for the UI
+  - `/pages/` - Page-level components
+  - `/utils/` - Utility functions
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Future Enhancements
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/41105c22-b262-443a-af9a-86d6a23793bb) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes it is!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- Add more complex rhyme schemes (AABB, ABBA, etc.)
+- Implement syllable counting for meter
+- Integrate with a word embedding model for better thematic coherence
+- Allow users to save and share generated poems

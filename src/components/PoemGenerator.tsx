@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import WordInput from './WordInput';
 import PoemDisplay from './PoemDisplay';
-import { generatePoemFromWord } from '@/utils/markovChain';
 import { useToast } from '@/hooks/use-toast';
 
 const PoemGenerator = () => {
@@ -24,31 +23,38 @@ const PoemGenerator = () => {
     setInputWord(word);
     setIsGenerating(true);
     
-    // Simulate processing time to show loading state
-    setTimeout(() => {
-      try {
-        const generatedPoem = generatePoemFromWord(word);
-        setPoem(generatedPoem);
-        
-        if (generatedPoem.length < 4) {
-          toast({
-            title: "Limited poem quality",
-            description: "The generator had trouble creating a proper quatrain with rhymes.",
-            variant: "default"
-          });
-        }
-      } catch (error) {
-        console.error('Error generating poem:', error);
+    try {
+      const response = await fetch('http://localhost:5000/api/generate-poem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ word }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setPoem(data.poem);
+      } else {
         toast({
           title: "Generation failed",
-          description: "An error occurred while generating your poem. Please try again.",
+          description: data.message || "An error occurred while generating your poem.",
           variant: "destructive"
         });
         setPoem(["Failed to generate poem. Please try with a different word."]);
-      } finally {
-        setIsGenerating(false);
       }
-    }, 1500); // Slightly longer delay to simulate more complex processing
+    } catch (error) {
+      console.error('Error generating poem:', error);
+      toast({
+        title: "Connection error",
+        description: "Could not connect to poem generation service. Is the Flask server running?",
+        variant: "destructive"
+      });
+      setPoem(["Failed to connect to poem generation service. Is the Flask server running?"]);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
