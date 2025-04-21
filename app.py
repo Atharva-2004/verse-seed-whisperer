@@ -8,6 +8,7 @@ import os
 from nltk.corpus import cmudict, wordnet as wn
 from poetry_generator import load_model as load_markov_model, generate_line as markov_generate_line
 from trigram_poetry_generator import load_model as load_markov_trigram_model, generate_line as markov_trigram_generate_line
+from lstm_poetry_model import load_model as lstm_model, generate_poem as lstm_generate_poem
 
 
 # Download necessary NLTK data
@@ -202,6 +203,25 @@ def generate_markov_trigram_poem():
             'poem': []
         }), 500
     
+@app.route('/api/generate-lstm-poem', methods=['POST'])
+def generate_lstm_poem():
+    data = request.get_json()
+    seed_text = data.get('seed', '')
+    
+    try:
+        model, tokenizer = lstm_model()
+        poem = lstm_generate_poem(seed_text, model, tokenizer)
+        return jsonify({
+            'success': True,
+            'poem': poem
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Error generating poem with LSTM: {str(e)}',
+            'poem': []
+        }), 500
+
 
 # --------------------------------------------
 # Serve React Frontend

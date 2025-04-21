@@ -7,7 +7,7 @@ const PoemGenerator = () => {
   const [poem, setPoem] = useState<string[]>([]);
   const [inputWord, setInputWord] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
-  const [apiMode, setApiMode] = useState<'normal' | 'markov' | 'trigram'>('normal');
+  const [apiMode, setApiMode] = useState<'normal' | 'markov' | 'trigram'| 'lstm'>('normal');
   const { toast } = useToast();
 
   const handleGenerate = async (word: string) => {
@@ -26,7 +26,8 @@ const PoemGenerator = () => {
     const endpoint = {
       normal: 'http://localhost:5000/api/generate-poem',
       markov: 'http://localhost:5000/api/generate-markov-poem',
-      trigram: 'http://localhost:5000/api/generate-markov-trigram-poem'
+      trigram: 'http://localhost:5000/api/generate-markov-trigram-poem',
+      lstm: 'http://localhost:5000/api/generate-lstm-poem'
     }[apiMode];
 
     try {
@@ -76,12 +77,13 @@ const PoemGenerator = () => {
         <select
           id="mode"
           value={apiMode}
-          onChange={(e) => setApiMode(e.target.value as 'normal' | 'markov' | 'trigram')}
+          onChange={(e) => setApiMode(e.target.value as 'normal' | 'markov' | 'trigram' | 'lstm' )}
           className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >
-          <option value="normal">Original Model</option>
+          <option value="normal">Hardcoded model</option>
           <option value="markov">Markov Chain Model (Single-Order)</option>
           <option value="trigram">Markov Chain Model (Trigram)</option>
+          <option value="lstm">LSTM</option>
         </select>
       </div>
 
